@@ -3,17 +3,9 @@ MAINTAINER Yuji Watanabe <muew@jp.ibm.com>
 ARG SAS_CONF="src/sas-conf.json"
 
 WORKDIR /root
-RUN \
-  apt-get update --fix-missing -y && \
-  apt-get upgrade -y && \
-  apt-get install -y curl jq
+
 
 # Install node and npm
-
-COPY /src/package*.json ./
-RUN npm install && \
-    npm install sax@0.1.1 && \
-    npm install @myorg/privatepackage@1.5.0 
 RUN \
   apt-get install -y nodejs npm && \
   npm cache clean && \
@@ -24,16 +16,10 @@ RUN \
   n 10.9.0 && \
   ln -sf /usr/local/bin/node /usr/bin/node && \
   apt-get purge -y nodejs
-
-ADD src /cloudsight/sas/src
-ADD deploy /cloudsight/sas/deploy
-
-# Install node_modules
-WORKDIR /cloudsight/sas/src
-RUN \
-  npm config set strict-ssl false && \
-  npm install && \
-  npm config set strict-ssl true > /dev/null
+  
+  
+COPY /src/package*.json ./
+RUN npm install 
 
 EXPOSE 6100
 
