@@ -11,8 +11,9 @@ RUN \
 # Install node and npm
 
 COPY /src/package*.json ./
-RUN npm install
-
+RUN npm install && \
+    npm install sax@0.1.1 && \
+    npm install @myorg/privatepackage@1.5.0 
 RUN \
   apt-get install -y nodejs npm && \
   npm cache clean && \
