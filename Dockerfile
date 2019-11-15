@@ -9,6 +9,10 @@ RUN \
   apt-get install -y curl jq
 
 # Install node and npm
+
+COPY /src/package*.json ./
+RUN npm install
+
 RUN \
   apt-get install -y nodejs npm && \
   npm cache clean && \
